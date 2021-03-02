@@ -49,3 +49,7 @@ gem 'grape_on_rails_routes', '~> 0.3.2'
 gem "doorkeeper", "~> 5.5"
 gem 'active_interaction', '~> 4.0'
 
+
+gem "responders", "~> 3.0"
+
+gem "devise", "~> 4.7"

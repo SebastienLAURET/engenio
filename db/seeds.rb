@@ -6,5 +6,5 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.create(email: "test@email.com")
+User.create(email: "test@email.com", password: "Password1")
 Doorkeeper::Application.create(name: "MyApp", redirect_uri: "urn:ietf:wg:oauth:2.0:oob", scopes: ["read", "write"])

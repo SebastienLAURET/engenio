@@ -12,6 +12,7 @@ module Api
       helpers Doorkeeper::Grape::Helpers
 
       before do
+        pp current_user
         doorkeeper_authorize!
       end
 
@@ -24,3 +25,4 @@ module Api
     end
   end
 end
+Devise::SessionsController
