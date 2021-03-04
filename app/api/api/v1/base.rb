@@ -7,14 +7,13 @@ module Api
     class Base < Grape::API
       include Api::V1::Defaults
 
-      mount Api::V1::Users::Base
-
       helpers Doorkeeper::Grape::Helpers
 
       before do
-        pp current_user
         doorkeeper_authorize!
       end
+
+      mount Api::V1::Users::Base
 
       # For old versions of Grape:
       #   route_setting :scopes, ['user:email']
@@ -22,7 +21,16 @@ module Api
       get :me, scopes: [:user, :read] do
         current_user.to_json
       end
+
+      helpers do
+        def current_user
+          return @current_user if defined?(@current_user)
+
+          if doorkeeper_token&.resource_owner_id&.present?
+            @current_user = User.find(doorkeeper_token.resource_owner_id)
+          end
+        end
+      end
     end
   end
 end
-Devise::SessionsController

@@ -3,25 +3,20 @@
 Doorkeeper.configure do
   orm :active_record
 
+  reuse_access_token
+
   api_only
-  base_controller 'ActionController::API'
+  base_controller 'ApplicationController'
 
-  resource_owner_authenticator do
-    current_user || warden.authenticate!(scope: :user)
-  end
-
-  admin_authenticator do
-    current_user || warden.authenticate!(scope: :user)
+  skip_authorization do
+    true
   end
 
   grant_flows %w[password]
 
   resource_owner_from_credentials do |routes|
-    user = User.find_for_database_authentication(email: params[:username])
-    if user&.valid_for_authentication? { user.valid_password?(params[:password]) } && user&.active_for_authentication?
-      request.env['warden'].set_user(user, scope: :user, store: false)
-      user
-    end
-  end
+    user = User.find_by_email(params[:username].downcase)
 
+    user if user&.valid_password?(params[:password])
+  end
 end

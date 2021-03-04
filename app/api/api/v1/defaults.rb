@@ -8,7 +8,6 @@ module Api
         format :json
         prefix :api
       end
-
     end
   end
 end
